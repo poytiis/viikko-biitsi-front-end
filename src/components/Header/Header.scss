@@ -5,27 +5,42 @@
 
   &__tab {
     color: white;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: bold;
+    height: 60%;
+    //border-bottom: 1px solid red;
 
     &:nth-child(2){
-      margin: 0 7rem;
+      margin: 0 6rem;
+    }
+    &:nth-child(4){
+      margin-left: 6rem;
     }
 
     &:hover{
       cursor: pointer;
     }
+
+    &--active{
+      // border-bottom: 2px solid blue ;
+      // transform: translateY(1px);
+      color:rgb(117, 152, 206);
+    }
+
+    &-container{
+      height: 100%;
+    }
   }
   &__main-content-container{
     flex-grow: 1;
     justify-content: center;
+    height: 100%;
   }
   &__icon-container{
     width: 40px;
     height: 40px;
     margin-right: 1rem;
     position: relative;
-    z-index: 2;
 
     &:hover .header__dropdown {
       visibility: visible;
@@ -34,7 +49,6 @@
   &__icon{
     width: 100%;
     height: auto;
-    z-index: 2;
 
     &:hover{
       cursor: pointer;

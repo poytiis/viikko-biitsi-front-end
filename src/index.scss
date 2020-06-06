@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 62.5%;
+  box-sizing: border-box;
 }
 
 code {
@@ -22,7 +23,10 @@ code {
   --gray-light: #DCDCDC;
   --gray: #C0C0C0;
   --gray-dark: #333;
-  --blue-light: #c9d6f3;
+  --blue-light: #e1e5ee;
+  --gray-super-light: #FAFAFA;
+  --blue: #6d7ae0;
+  --gray-text: #8d8d8e;
 
 }
 
