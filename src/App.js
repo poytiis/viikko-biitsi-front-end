@@ -10,6 +10,7 @@ import PrivateRoute from './services/PrivateRoute';
 import Logs from './components/Logs/Logs';
 import LogIn from './components/LogIn/LogIn';
 import Results from './components/Results/Results';
+import OldResults from './components/OldResults/OldResults';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
 
         <PrivateRoute exact path='/viikon-tulokset' component={Results}/>        
         <PrivateRoute path='/logit' component={Logs}/>
-         <PrivateRoute path='/asetukset' component={Settings}/>
+        <PrivateRoute path='/asetukset' component={Settings}/>
+        <PrivateRoute path='/vanhat-tulokset' component={OldResults}/>
 
       </Switch>
     </Router>

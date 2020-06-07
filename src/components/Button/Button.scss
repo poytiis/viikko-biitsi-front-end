@@ -7,6 +7,10 @@
   width: 140px;
   height: 45px;
 
+  &--delete{
+    background-color: #696969;
+  }
+
   &:hover {
     cursor: pointer;
   }

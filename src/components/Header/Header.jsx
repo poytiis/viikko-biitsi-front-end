@@ -30,7 +30,9 @@ const Header = () => {
             <span>Viikon tulokset</span>
           </div>
 
-          <div className={'header__tab flex-row-center ' + (currentTab === '/vanhat-tulokset' ? ' header__tab--active': '' )}>
+          <div className={'header__tab flex-row-center ' + (currentTab === '/vanhat-tulokset' ? ' header__tab--active': '' )}
+            onClick={() => {history.push('/vanhat-tulokset')}}
+          >
             <span>Vanhat tulokset</span>
           </div>
 

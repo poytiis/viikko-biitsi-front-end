@@ -1,9 +1,9 @@
 import React from 'react';
 import Dialog from '../Dialog/Dialog';
 import Button from '../../Button/Button';
-import Input from '../../Input/Input';
 import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
+import TextField from '@material-ui/core/TextField';
 
 const ModifyDialog = (props) => {
 
@@ -25,9 +25,12 @@ const ModifyDialog = (props) => {
 
         <div className='modify-dialog__main-content'>
 
-          <Input label='Lohko' control={groupControl}/>
-          <Input label='Sarja'control={serieControl}/>
-          <Input label='Nimi' control={nameControl}/>
+          <div className='flex-column'>
+          <TextField {...groupControl} label="lohko" style={{width: '300px',margin: '0.6rem 0'}} />
+          <TextField {...serieControl} label="Sarja" style={{width: '300px',margin: '0.6rem 0'}} />
+          <TextField {...nameControl} label="Nimi" style={{width: '300px',margin: '0.6rem 0'}} />
+
+          </div>       
           
         </div>
 

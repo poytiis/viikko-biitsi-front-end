@@ -4,17 +4,20 @@
   border-collapse: collapse;
   border-radius: 80px;
 
-  &__first-column{
+  &__first-column, &__1-column{
+    width: 15%;
+  }
+  &__second-column, &__2-column{
+    width: 15%;
+  }
+  &__third-column, &__3-column{
     width: 20%;
   }
-  &__second-column{
+  &__forth-column, &__4-column{
     width: 20%;
   }
-  &__third-column{
-    width: 20%;
-  }
-  &__forth-column{
-    width: 40%;
+  &__5-column{
+    width: 30%;
   }
 
   &__header{
