@@ -22,9 +22,11 @@
     }
 
     &--active{
-      // border-bottom: 2px solid blue ;
-      // transform: translateY(1px);
       color:rgb(117, 152, 206);
+    }
+
+    &-active{
+      color: white;
     }
 
     &-container{

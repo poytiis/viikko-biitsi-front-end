@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './Header.scss';
 import userIcon from '../../imgs/user.png';
+import { useHistory } from 'react-router-dom';
 
 const Header = () => {
+
+  const history = useHistory();
 
   const [currentTab, setCurrentTab] = useState(null);
 
@@ -21,23 +24,28 @@ const Header = () => {
       <div className='header__main-content-container flex-row'>
         <div className='header__tab-container flex-row-center'> 
 
-          <div className={'header__tab flex-row-center' + (currentTab === '/viikon-tulokset' && ' header__tab--active' )}>
+          <div className={'header__tab flex-row-center ' + (currentTab === '/viikon-tulokset' ? ' header__tab--active': '' )}
+            onClick={() => {history.push('/viikon-tulokset')}}
+          >
             <span>Viikon tulokset</span>
           </div>
 
-          <div className={'header__tab flex-row-center' + (currentTab === '/vanhat-tulokset' && ' header__tab--active' )}>
+          <div className={'header__tab flex-row-center ' + (currentTab === '/vanhat-tulokset' ? ' header__tab--active': '' )}>
             <span>Vanhat tulokset</span>
           </div>
 
-          <div className={'header__tab flex-row-center' + (currentTab === '/lokit' && ' header__tab--active' )}>
-            <span>Lokit</span>
+          <div className={'header__tab flex-row-center ' + (currentTab === '/logit' ? ' header__tab--active': '' )}
+            onClick={() => {history.push('/logit')}}
+          >
+            <span>Logit</span>
           </div>
 
-          <div className={'header__tab flex-row-center' + (currentTab === '/asetukset' && ' header__tab--active' )}>
+          <div className={'header__tab flex-row-center ' + (currentTab === '/asetukset' ? ' header__tab--active': '' )}
+            onClick={() => {history.push('/asetukset')}}
+          >
+
             <span>Asetukset</span>
-          </div>
-          
-         
+          </div>        
           
         </div>
       </div>
