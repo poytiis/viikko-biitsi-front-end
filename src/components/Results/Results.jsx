@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Results.scss';
 import Layout from '../Layout/Layout';
 import Table from '../Table/Table';
@@ -8,6 +8,8 @@ import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
 import useDialog from '../../hooks/useDialog';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { getNewScores } from '../../services/httpClient';
+import SnackBar from '../SnackBar/SnackBar';
 
 
 const Results = () => {
@@ -16,6 +18,19 @@ const Results = () => {
   const modifyDialogControl = useDialog();
 
   const [modifydialogData, setModifydialogData] = useState();
+  const [snackBarMessage, setSnackBarMessage] = useState('');
+
+  useEffect(() => {
+    getNewScores()
+      .then(res  => {
+        console.log(res)
+
+      })
+      .catch( err => {
+        console.log(err);
+        setSnackBarMessage('Virhe tulosten haussa');
+      })
+  }, []);
 
   const tableStyles = {
     marginTop: '2rem'
@@ -73,19 +88,23 @@ const Results = () => {
         </div>
 
       </div>
-     {deleteDialogControl.showDialog && 
-      <DeleteDialog 
-        close={deleteDialogControl.closeDialog} 
-        content={createDeleteContent} 
-        things='lohkot'
-      />
+     {  deleteDialogControl.showDialog && 
+        <DeleteDialog 
+          close={deleteDialogControl.closeDialog} 
+          content={createDeleteContent} 
+          things='lohkot'
+        />
       }
 
-      {modifyDialogControl.showDialog &&
-      <ModifyDialog 
-        close={modifyDialogControl.closeDialog}
-        content={modifydialogData}
-      />     
+      { modifyDialogControl.showDialog &&
+        <ModifyDialog 
+          close={modifyDialogControl.closeDialog}
+          content={modifydialogData}
+        />     
+      }
+
+      { snackBarMessage !== '' &&
+        <SnackBar close={() => {setSnackBarMessage('')}}>{snackBarMessage}</SnackBar>
       }
    </Layout>
   );
