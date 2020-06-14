@@ -12,15 +12,15 @@ const Table = (props) => {
       );
   });
 
-  const content = (props.content || [1,1,1,1]).map(row => {
+  const content = (props.players || []).map(row => {
     return(
-      <tr className='table__body-row'>
+      <tr className='table__body-row' key={row.name.value}>
         <td> 
           <Checkbox></Checkbox></td>
-        <td>1</td>
-        <td>Naiset</td>
-        <td>-120</td>
-        <td>Tiina Pöytäniemi</td>
+        <td>{props.pool.rank.value}</td>
+        <td>{props.pool.serie.value}</td>
+        <td>{row.score.value}</td>
+        <td>{row.name.value}</td>
       </tr>
     );
   })
