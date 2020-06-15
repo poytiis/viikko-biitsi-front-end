@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Results.scss';
 import Layout from '../Layout/Layout';
 import Table from '../Table/Table';
@@ -26,8 +26,21 @@ const Results = () => {
 
   const [selectedPool, setSelectedPool] = useState(-1);
 
+  const handlePreviousPaginatorEvent = () => {
+    if(selectedPool !== pools.length - 1) {
+      setSelectedPool(selectedPool + 1);
+    }
+    
+  }
+
+  const handleNextPaginatorClick = () => {
+    if(selectedPool !== 0){
+       setSelectedPool(selectedPool - 1);
+    }
+   
+  }
+
   const players = [];
-  let poolData = null;
 
   if (selectedPool !== -1 && pools !== []) {
 
@@ -37,17 +50,6 @@ const Results = () => {
 
     const data = tableData.filter(row => row.post_id === selectedPostId);
     console.log(data)
-
-    poolData = {
-      serie: {
-        value: data[0].meta_value,
-        id: data[0].meta_key
-      },
-      rank: {
-        value: data[1].meta_value,
-        id: data[1].meta_key
-      }
-    };
 
     for(let i = 2; i <= 8; i = i + 2) {
 
@@ -59,6 +61,14 @@ const Results = () => {
         score: {
           value: data[i + 1].meta_value,
           id: data[i + 1].meta_id
+        },
+        serie: {
+          value: data[0].meta_value,
+          id: data[0].meta_id
+        },
+        rank: {
+          value: data[1].meta_value,
+          id: data[1].meta_id
         }
       };
       players.push(player);
@@ -67,17 +77,9 @@ const Results = () => {
    
      console.log(players)
  }
-  
+  const comparePools = useCallback((first, second) => {
 
-  useEffect(() => {
-
-  }, [selectedPool]);
-
-  useEffect(() => {
-
-    const comparePools = (first, second) => {
-
-      if (first.serie === 'Miehet' && second.serie === 'Naiset' ) {
+     if (first.serie === 'Miehet' && second.serie === 'Naiset' ) {
         return 1;
       } else if (first.serie === 'Naiset' && second.serie === 'Miehet') {
         return -1;
@@ -85,11 +87,11 @@ const Results = () => {
         return parseInt(first.pool) -parseInt(second.pool);
       }
 
-    }
+  }, []);
+
+  const fetchData = useCallback(() => {
     getNewScores()
       .then(res  => {
-        // console.log(res);
-        // console.log(res.data)
 
         const pools = res.data.data.filter(row => row.meta_key === '_field_39').map(pool => pool.meta_value);
         const series = res.data.data.filter(row => row.meta_key === '_field_38').map(serie => serie.meta_value);
@@ -130,7 +132,12 @@ const Results = () => {
         console.log(err);
         setSnackBarMessage('Virhe tulosten haussa');
       })
-  }, [settableData, setPools, setSelectedPool]);
+
+  }, [settableData, setPools, setSelectedPool, comparePools]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const tableStyles = {
     marginTop: '2rem'
@@ -170,7 +177,8 @@ const Results = () => {
           rowClick={openModifyDialogData}
           headers={tableHeaders}
           players={players}
-          pool={poolData}
+          nextClick={handleNextPaginatorClick}
+          backClick={handlePreviousPaginatorEvent}
 
         />
         <div className='results__cancel-container flex-row'>
@@ -203,6 +211,7 @@ const Results = () => {
         <ModifyDialog 
           close={modifyDialogControl.closeDialog}
           content={modifydialogData}
+          fetchData ={fetchData}
         />     
       }
 

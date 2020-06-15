@@ -8,3 +8,10 @@ export const getNewScores = () => {
   console.log(url);
   return axios.get(url);
 }
+
+export const putScores = (data) => {
+  const url = API_URL + 'update_scores.php';
+  console.log(url);
+  return axios.post(url, data);
+
+}

@@ -4,18 +4,51 @@ import Button from '../../Button/Button';
 import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
 import TextField from '@material-ui/core/TextField';
+import { putScores } from '../../../services/httpClient';
 
 const ModifyDialog = (props) => {
 
-  const groupControl = useInput(props.content.group);
-  const serieControl = useInput(props.content.serie);
-  const nameControl = useInput(props.content.name);
+  const { rank, serie, name, score } = props.content;
+
+  const rankControl = useInput(rank.value);
+  const serieControl = useInput(serie.value);
+  const nameControl = useInput(name.value);
+  const scoreControl =useInput(score.value);
 
   const deleteButtonStyles = {
     backgroundColor: 'var(--gray)'
   };
 
   const handleUpdate = () => {
+    console.log('muokkaa')
+    if(rank.value === rankControl.value && serie.value === serieControl.value &&
+       name.value === nameControl.value && score.value === scoreControl.value) {
+         return;
+    }
+
+    const newData = {
+      rankValue: rankControl.value,
+      rankId: rank.id,
+      nameValue: nameControl.value,
+      nameId: name.id,
+      scorevalue: scoreControl.value,
+      scoreid: score.id,
+      serievalue: serieControl.value,
+      serieId: serie.id
+    };
+    console.log(newData)
+
+    putScores(newData)
+      .then (res => {
+        console.log(res);
+        props.fetchData();
+        props.close();
+      })
+      .catch( err => {
+        console.log(err);
+      });
+
+
 
   }
   return (
@@ -26,9 +59,10 @@ const ModifyDialog = (props) => {
         <div className='modify-dialog__main-content'>
 
           <div className='flex-column'>
-          <TextField {...groupControl} label="lohko" style={{width: '300px',margin: '0.6rem 0'}} />
+          <TextField {...rankControl} label="lohko" style={{width: '300px',margin: '0.6rem 0'}} />
           <TextField {...serieControl} label="Sarja" style={{width: '300px',margin: '0.6rem 0'}} />
           <TextField {...nameControl} label="Nimi" style={{width: '300px',margin: '0.6rem 0'}} />
+          <TextField {...scoreControl} label="Pisteet" style={{width: '300px',margin: '0.6rem 0'}} />
 
           </div>       
           

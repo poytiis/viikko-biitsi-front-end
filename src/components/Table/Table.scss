@@ -9,7 +9,7 @@
   &__container{
     overflow-y: auto;
     width: 1000px;
-    max-height: 40vh;;
+    max-height: 40vh;
     
   }
 
@@ -53,25 +53,50 @@
 
     & tr {
       background-color: white;
-     line-height: 2.4rem;
-     border-bottom: 1px solid #efeff9;
+      line-height: 2.4rem;
+      border-bottom: 1px solid #efeff9;
 
      &:hover{
        cursor: pointer;
        background-color: rgb(233, 232, 232);
      }
 
-     &:last-child td:last-child {
-       border-radius:0 0 10px 0 ;
-     }
+    //  &:last-child td:last-child {
+    //    border-radius:0 0 10px 0 ;
+    //  }
 
-      &:last-child td:first-child {
-       border-radius:0 0 0 10px;
-     }
+    //   &:last-child td:first-child {
+    //    border-radius:0 0 0 10px;
+    //  }
     }
     & td {
       color: var(--gray-text);
       font-size: 1.0rem;
+    }
+  }
+
+  &__paginator {
+    background-color: white;
+    height: 2.4rem;
+    justify-content: flex-end;
+
+    &-error {
+      margin-right: 30%;
+      font-size: 0.9rem;
+    }
+
+    &-icon {
+      height: 30px;
+      width: auto;
+
+      &:last-child{
+        margin-right: 1rem;
+        margin-left: 1rem;
+      }
+
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
 }

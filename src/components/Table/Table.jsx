@@ -1,6 +1,9 @@
 import React from 'react';
 import './Table.scss';
 import Checkbox from '@material-ui/core/Checkbox';
+import nextIcon from '../../imgs/next.png';
+import backIcon from '../../imgs/back.png';
+
 
 const Table = (props) => {
 
@@ -12,18 +15,25 @@ const Table = (props) => {
       );
   });
 
+let points = 0;
   const content = (props.players || []).map(row => {
+    points +=parseInt(row.score.value);
     return(
       <tr className='table__body-row' key={row.name.value}>
         <td> 
-          <Checkbox></Checkbox></td>
-        <td>{props.pool.rank.value}</td>
-        <td>{props.pool.serie.value}</td>
+          <Checkbox></Checkbox>
+        </td>
+        <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
+        <td>{row.serie.value}</td>
         <td>{row.score.value}</td>
         <td>{row.name.value}</td>
       </tr>
     );
-  })
+  });
+
+  const errorMessage = points !== 0
+   ? <span>Lohkon pisteet laskettu väärin: {points}</span>
+   : null
   return (
     <div className='table__container'>
       <table style={props.style} className='table'>
@@ -36,7 +46,15 @@ const Table = (props) => {
           {content}
         </tbody>
       </table>
+      <div className='table__paginator flex-row-center'>
+        <div className='table__paginator-error'>
+          {errorMessage}
+        </div>
+        
+       <img onClick={props.nextClick} className='table__paginator-icon' src={backIcon} alt="back arrow"/>
+       <img onClick={props.backClick} className='table__paginator-icon'  src={nextIcon} alt=""next arrow/>
 
+      </div>
     </div>
   
   );
