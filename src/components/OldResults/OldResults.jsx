@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
 import Table from '../Table/Table';
+import  { downloadRankings } from '../../services/httpClient'
 
 const OldResults = () => {
 
@@ -25,6 +26,40 @@ const OldResults = () => {
   }
   const deleteButtonStyles = {
     marginTop: '0.6rem'
+  }
+  const handleDownloadrankingLists = () => {
+    downloadRankinList('men');
+    downloadRankinList('women');
+  }
+  const downloadRankinList = (serie) => {
+
+    Date.prototype.getWeek = function() {
+      var onejan = new Date(this.getFullYear(),0,1);
+      return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+    }
+
+    const today =new Date();
+    var weekNumber = today.getWeek();
+    const fileName = 'ranking_' + serie + weekNumber + '.csv';
+
+    downloadRankings(serie)
+      .then(res => {
+        console.log(res)
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(res.data));
+        element.setAttribute('download', fileName);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+        document.body.removeChild(element);
+
+      })
+      .catch(err => {
+
+    })
+
   }
   const tableHeaders = ['', 'Lohko', 'Sarja', 'Pisteet', 'Nimi'];
   return (
@@ -48,7 +83,7 @@ const OldResults = () => {
           </div>
           <div className='old-results__button-container'>
             <Button style={updateButtonStyles}>Päivitä ranking</Button>
-            <Button style={uploadButtonStyles}>Lataa Exeliin</Button>
+            <Button style={uploadButtonStyles} onClick={handleDownloadrankingLists}>Lataa Exeliin</Button>
           </div>
 
         </div>

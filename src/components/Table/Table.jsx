@@ -24,9 +24,9 @@ let points = 0;
           <Checkbox></Checkbox>
         </td>
         <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
-        <td>{row.serie.value}</td>
-        <td>{row.score.value}</td>
-        <td>{row.name.value}</td>
+        <td onClick={() => {props.rowClick(row)}}>{row.serie.value}</td>
+        <td onClick={() => {props.rowClick(row)}}>{row.score.value}</td>
+        <td onClick={() => {props.rowClick(row)}}>{row.name.value}</td>
       </tr>
     );
   });

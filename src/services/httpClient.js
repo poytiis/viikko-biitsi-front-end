@@ -15,3 +15,11 @@ export const putScores = (data) => {
   return axios.post(url, data);
 
 }
+
+export const downloadRankings = (serie) => {
+
+   const url = serie === 'men'
+     ? API_URL + 'download_ranking.php?serie=men'
+     : API_URL + 'download_ranking.php?serie=women';
+   return axios.get(url);
+}

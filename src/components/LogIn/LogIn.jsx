@@ -12,7 +12,10 @@ const LogIn = () => {
   const history = useHistory();
 
   const handleLogInClick = () => {
-    history.push('/viikon-tulokset');
+    if(usernameControl.value === 'viikkobiitsi' && passwordControl.value === 'viikkobiitsi') {
+       history.push('/viikon-tulokset');
+    }
+   
   }
 
   const buttonStyles = {
@@ -30,8 +33,8 @@ const LogIn = () => {
       <div className='log-in__content flex-column-center'>
         <span className='log-in__header'>Kirjaudu sisään</span>
 
-        <TextField style={inputStyle} label='Käyttäjänimi' {...usernameControl}/>
-        <TextField style={inputStyle} label='Salasana' {...passwordControl}/>
+        <TextField style={inputStyle} label='Käyttäjänimi' {...usernameControl}  color="secondary"/>
+        <TextField style={inputStyle} label='Salasana' type="password" {...passwordControl}  color="secondary"/>
 
         <Button style={buttonStyles} onClick={handleLogInClick}>Kirjaudu</Button>
       </div>
