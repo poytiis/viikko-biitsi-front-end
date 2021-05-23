@@ -1,6 +1,5 @@
 import React from 'react';
 import './Table.scss';
-import Checkbox from '@material-ui/core/Checkbox';
 import nextIcon from '../../imgs/next.png';
 import backIcon from '../../imgs/back.png';
 
@@ -21,7 +20,6 @@ let points = 0;
     return(
       <tr className='table__body-row' key={row.name.value}>
         <td> 
-          <Checkbox></Checkbox>
         </td>
         <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
         <td onClick={() => {props.rowClick(row)}}>{row.serie.value}</td>

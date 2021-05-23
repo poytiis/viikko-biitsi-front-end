@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { getNewScores } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
-
+import { deletePoolAjax, calculateNewRankingAjax } from '../../services/httpClient';
 
 const Results = () => {
 
@@ -29,20 +29,18 @@ const Results = () => {
   const handlePreviousPaginatorEvent = () => {
     if(selectedPool !== pools.length - 1) {
       setSelectedPool(selectedPool + 1);
-    }
-    
+    } 
   }
 
   const handleNextPaginatorClick = () => {
     if(selectedPool !== 0){
-       setSelectedPool(selectedPool - 1);
-    }
-   
+      setSelectedPool(selectedPool - 1);
+    }  
   }
 
   const players = [];
 
-  if (selectedPool !== -1 && pools !== []) {
+  if (selectedPool !== -1 && pools.length !== 0) {
 
     console.log(pools[selectedPool])
     const selectedPostId = pools[selectedPool].postId;
@@ -123,10 +121,7 @@ const Results = () => {
 
         settableData(res.data.data);
         setPools(poolsData);
-        setSelectedPool(0);
-
-        
-
+        setSelectedPool(0);   
       })
       .catch( err => {
         console.log(err);
@@ -148,23 +143,51 @@ const Results = () => {
     height: '40px'
   }
   const openModifyDialogData = (data) => {
-
     setModifydialogData(data);
     modifyDialogControl.openDialog();
   }
 
-  const createDeleteContent = () => {
+  const createDeletePoolContent = () => {
     const contentStyles = {
       fontSize: '1.2rem'
     }
+    if(selectedPool === -1 || pools.length === 0){
+      return <h2>Ainuttakaan valintaa ei voitu poistaa</h2>;
+    }
+    console.log(selectedPool)
+    const content = 'Lohko ' + (selectedPool + 1).toString() + ' ' + pools[selectedPool].serie;
     return(
-      <>
-        <p style={contentStyles}>Lohko 2, Naiset</p>
-        <p style={contentStyles}>Lohko 3, Miehet</p>
-      </>
-     
+      <p style={contentStyles}>{content}</p>
     );
   };
+
+  const handleDeletePool = () => {
+    if(selectedPool === -1 || pools.length === 0) {
+      return;
+    }
+    const postId = pools[selectedPool].postId;
+    if(postId === null || postId === '') {
+      return;
+    }
+    console.log(postId)
+    deletePoolAjax(postId)
+      .then(res => {
+        setSelectedPool(-1);
+        deleteDialogControl.closeDialog();
+        fetchData();
+      })
+  }
+
+  const handleUpdateNewRanking = () => {
+    calculateNewRankingAjax()
+      .then(res => {
+        fetchData();
+      })
+      .catch(err => {
+
+      })
+    
+  }
 
   const tableHeaders = ['', 'Lohko','Sarja' , 'Pisteet', 'Nimi'];
 
@@ -194,15 +217,16 @@ const Results = () => {
               <MenuItem value='select'>Valitse viikko</MenuItem>
             </Select>
            
-            <Button style={updateButtonStyles}>Päivitä</Button>
+            <Button style={updateButtonStyles} onClick={handleUpdateNewRanking}>Päivitä</Button>
           </div>
         </div>
 
       </div>
-     {  deleteDialogControl.showDialog && 
+      {  deleteDialogControl.showDialog && 
         <DeleteDialog 
-          close={deleteDialogControl.closeDialog} 
-          content={createDeleteContent} 
+          close={deleteDialogControl.closeDialog}
+          delete={handleDeletePool} 
+          content={createDeletePoolContent} 
           things='lohkot'
         />
       }
